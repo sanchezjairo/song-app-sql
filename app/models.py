@@ -17,7 +17,7 @@ class User(UserMixin, db.Model):
     Username = db.Column(db.String(80), nullable=False)
     password = db.Column(db.String(80), nullable=False)
     playlist_id = db.Column(db.Integer, db.ForeignKey('artist.id'), nullable=False)
-    playlist = db.relationship('Playlist', db.ForeignKey('playlist.id'), nullable=False)
+    playlist = db.relationship('Playlist', secondary='user_playlist', back_populates='user_playlist')
     favorite_song = db.relationship('Song', secondary='user_song', back_populates='users_who_favorited')
 
 
@@ -38,6 +38,7 @@ class Playlist(db.Model):
     name = db.Column(db.String(80), nullable=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     song_id = db.Column(db.Integer, db.ForeignKey('song.id'), nullable=False)
+    user_playlist = db.relationship('User', back_populates='playlist')
 
 class Album(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -47,8 +48,9 @@ class Album(db.Model):
 
 class Artist(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(80), nullable=True)
-    Song = db.relationship('Song', back_populates='artist')
+    Username = db.Column(db.String(80), nullable=False)
+    password = db.Column(db.String(80), nullable=False)
+    Song = db.relationship('Song', back_populates='title')
 
     def __str__(self):
         return f'<Artist: {self.name}>'
