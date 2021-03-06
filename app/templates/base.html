@@ -13,10 +13,11 @@
                 <div>
                     {% if current_user.is_authenticated %}
                     <a href="/create_playlist">Create Playlist</a>
+                    <a href="/create_song">Create song</a>
+                    <a href="/create_artist">Create artist</a>
                     <a href="/logout">Log Out</a>
                     {% else %}
                     <a href="/signup">Sign Up</a>
-                    <a href="/signupartist">Artist Sign up</a>
                     <a href="/login">Log In</a>
                     {% endif %}
                 </div>
@@ -29,6 +30,21 @@
             {% for message in get_flashed_messages() %}
                 <p>{{ message }}</p>
             {% endfor %}
+
+            <ul>
+                {% for song in all_songs %}
+                    <li><a href="/song/{{ song.id }}">{{ song.title }}</a> by {{ song.artist.name }}</li>
+                {% endfor %}
+                
+                {% for artist in all_artist %}
+                    <li><a href="/artist/{{ artist.id }}">{{ artist.name}}</a> 
+                {% endfor %}
+
+                {% for playlist in all_playlist %}
+                <li><a href="/playlist/{{ playlist.id }}">{{ playlist.name}}</a></li>
+                {% endfor %}
+
+            </ul>
 
             {% block content %}{% endblock %}
         </div>

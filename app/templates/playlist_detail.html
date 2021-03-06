@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h1>{{ song.title }}</h1>
+
+
+<p>
+    <strong>Playlist</strong>: {{ user.playlist.name }}
+</p>
+
+
+<form method="POST" action="{{ url_for('main.playlist_detail', playlist_id=playlist.id) }}">
+    {{ form.csrf_token }}
+    <fieldset>
+        <legend>Edit this book</legend>
+
+        {{ form.name.label }}
+        {{ form.name }}
+        
+        {{ form.publish_date.label }}
+        {{ form.publish_date(placeholder="YYYY-mm-dd") }}
+        
+        {{ form.songs.label }}
+        {{ form.songs }}
+        
+        {{ form.submit }}
+    </fieldset>
+</form>
+
+{% endblock %}

@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h1>{{ artist.name }}</h1>
+
+
+<p>
+    <strong>Artist</strong>: {{ artist.name }}
+</p>
+
+
+<form method="POST" action="{{ url_for('main.artist_detail', artist_id=artist.id) }}">
+    {{ form.csrf_token }}
+    <fieldset>
+        <legend>Edit this book</legend>
+
+        {{ form.name.label }}
+        {{ form.name }}
+        
+    </fieldset>
+</form>
+
+{% endblock %}

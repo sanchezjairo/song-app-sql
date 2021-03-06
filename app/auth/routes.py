@@ -25,21 +25,6 @@ def signup():
         return redirect(url_for('auth.login'))
     return render_template('signup.html', form=form)
 
-@auth.route('/signup_artist', methods=['GET', 'POST'])
-def signup_artist():
-    form = SignUpForm()
-    if form.validate_on_submit():
-        hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
-        artist = Artist(
-            username=form.username.data,
-            password=hashed_password
-        )
-        db.session.add(artist)
-        db.session.commit()
-        flash('Account Created.')
-        return redirect(url_for('auth.login'))
-    return render_template('signup_artist.html', form=form)
-
 
 @auth.route('/login', methods=['GET', 'POST'])
 def login():
@@ -51,20 +36,10 @@ def login():
         return redirect(next_page if next_page else url_for('main.homepage'))
     return render_template('login.html', form=form)
 
-@auth.route('/login_artist', methods=['GET', 'POST'])
-def login_artist():
-    form = LoginForm()
-    if form.validate_on_submit():
-        artist = Artist.query.filter_by(username=form.username.data).first()
-        login_artist(artist, remember=True)
-        next_page = request.args.get('next')
-        return redirect(next_page if next_page else url_for('main.homepage'))
-    return render_template('login_artist.html', form=form)
 
 @auth.route('/logout')
 @login_required
 def logout():
     logout_user()
-    logout_artist()
     flash('logged out')
     return redirect(url_for('main.homepage'))

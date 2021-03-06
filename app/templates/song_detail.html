@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h1>{{ song.title }}</h1>
+
+{% if current_user.is_authenticated %}
+    {% if song not in current_user.favorite_song %}
+    <form action="/favorite/{{ song.id }}" method="POST">
+        <input type="submit" value="Favorite This Song">
+    </form>
+    {% else %}
+    <form action="/unfavorite/{{ song.id }}" method="POST">
+        <input type="submit" value="Unfavorite This Song">
+    </form>
+    {% endif %}
+{% endif %}
+
+<p>
+    <strong>Artist</strong>: {{ song.artist.name }}
+</p>
+
+
+<form method="POST" action="{{ url_for('main.song_detail', song_id=song.id) }}">
+    {{ form.csrf_token }}
+    <fieldset>
+        <legend>Edit this book</legend>
+
+        {{ form.title.label }}
+        {{ form.title }}
+        
+        {{ form.publish_date.label }}
+        {{ form.publish_date(placeholder="YYYY-mm-dd") }}
+        
+        {{ form.artist.label }}
+        {{ form.artist }}
+        
+        {{ form.submit }}
+    </fieldset>
+</form>
+
+{% endblock %}

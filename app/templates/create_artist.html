@@ -2,24 +2,24 @@
 
 {% block content %}
 
-<form method="POST" action="{{ url_for('main.create_playlist') }}">
+<p>artist creation form.</p>
+
+<form method="POST" action="{{ url_for('main.create_artist') }}">
     {{ form.csrf_token }}
     <fieldset>
-        <legend>Create a playlist</legend>
+        <legend>Enter an artist</legend>
 
-        {{ form.name.label }}
+        <p>Artist name</p>
         {{ form.name }}
         <ul>
         {% for error in form.name.errors %}
             <li class="error">{{ error }}</li>
         {% endfor %}
         </ul>
-        
-
-
             
         {{ form.submit }}
     </fieldset>
 </form>
+
 
 {% endblock %}
